@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{48E294FA-124
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaHarbor.Bot", "src\MediaHarbor.Bot\MediaHarbor.Bot.csproj", "{1068D92D-F968-41F1-9351-189ED7C5D496}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaHarbor.Logger", "src\MediaHarbor.Logger\MediaHarbor.Logger.csproj", "{05AC4672-F854-48DE-B483-28983A55E0ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{1068D92D-F968-41F1-9351-189ED7C5D496}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1068D92D-F968-41F1-9351-189ED7C5D496}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1068D92D-F968-41F1-9351-189ED7C5D496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AC4672-F854-48DE-B483-28983A55E0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AC4672-F854-48DE-B483-28983A55E0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AC4672-F854-48DE-B483-28983A55E0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AC4672-F854-48DE-B483-28983A55E0ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1068D92D-F968-41F1-9351-189ED7C5D496} = {48E294FA-1241-47AC-897E-CF4B88A59893}
+		{05AC4672-F854-48DE-B483-28983A55E0ED} = {48E294FA-1241-47AC-897E-CF4B88A59893}
 	EndGlobalSection
 EndGlobal

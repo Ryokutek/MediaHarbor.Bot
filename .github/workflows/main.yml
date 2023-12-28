@@ -1,0 +1,27 @@
+name: MediaHarborBot
+on: 
+  push: 
+    branches: [main]
+jobs:
+  nuget:
+    runs-on: windows-runner
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./src/MediaHarbor.Bot/Dockerfile
+        push: true
+        tags: gsmelford/mediaharbor.bot:beta_1.0

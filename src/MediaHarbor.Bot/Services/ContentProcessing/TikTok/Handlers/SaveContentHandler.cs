@@ -6,28 +6,27 @@ namespace MediaHarbor.Bot.Services.ContentProcessing.TikTok.Handlers;
 
 public class SaveContentHandler(IDataLake dataLake) : AbstractHandler<ProcessTikTokContent>
 {
-    private static string GetContentFolder() => Path.Combine(Constants.ContentFolder, TikTokConstants.ContentFolder);
-    private static string BuildVideoPath(string awemeId) => Path.Combine(GetContentFolder(), $"{awemeId}.mp4");
-    private static string GetImagesFolder(string awemeId) => Path.Combine(GetContentFolder(), awemeId);
-    private static string BuildImagesPath(string awemeId, int count) => Path.Combine(GetImagesFolder(awemeId), $"{count}.png");
-    
-    public override async Task<ProcessTikTokContent?> HandleAsync(ProcessTikTokContent context)
+    public override async Task<ProcessTikTokContent?> HandleAsync(ProcessTikTokContent content)
     {
-        dataLake.CreateFolderIfNotExist(GetContentFolder());
+        dataLake.CreateFolderIfNotExist(TikTokConstants.GetContentFolder());
         
-        if (context.IsVideo()) {
-            await dataLake.SaveAsync(BuildVideoPath(context.AwemeId!), context.TikTokVideo!.Bytes);
+        if (content.IsVideo()) {
+            await dataLake.SaveAsync(TikTokConstants.BuildVideoPath(content.Id), content.TikTokVideo!.Bytes);
         }
 
-        if (context.IsImages())
+        if (content.IsImages())
         {
-            dataLake.CreateFolderIfNotExist(GetImagesFolder(context.AwemeId!));
-            for (var i = 0; i < context.TikTokImages!.Count; i++)
+            dataLake.CreateFolderIfNotExist(TikTokConstants.GetImagesFolder(content.Id));
+            for (var i = 0; i < content.TikTokImages!.Count; i++)
             {
-                await dataLake.SaveAsync(BuildImagesPath(context.AwemeId!, i), context.TikTokImages[i].Bytes);
+                await dataLake.SaveAsync(TikTokConstants.BuildImagesPath(content.Id, i), content.TikTokImages[i].Bytes);
             }
         }
+
+        if (content.IsAudioExist()) {
+            await dataLake.SaveAsync(TikTokConstants.BuildAudioPath(content.Id), content.TikTokAudio!.Bytes);
+        }
         
-        return await base.HandleAsync(context);
+        return await base.HandleAsync(content);
     }
 }

@@ -52,6 +52,7 @@ public partial class ContentPipeline(IKafkaProducer<string> kafkaProducer) : Upd
     {
         return new StartContentProcessEvent
         {
+            Id = Guid.NewGuid(),
             ContentProvider = provider,
             SessionId = context.Session.Id,
             ChatId = context.Session.ChatId,

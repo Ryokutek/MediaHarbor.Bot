@@ -20,6 +20,7 @@ public static class ProgramExtensions
         var consumerConfig = new ConsumerConfig { BootstrapServers = "localhost" };
         
         await kafkaConsumerFactory.SubscribeAsync<StartContentProcessEvent, ContentHandler>(consumerConfig);
+        await kafkaConsumerFactory.SubscribeAsync<FinishContentProcessEvent, FinishContentHandler>(consumerConfig);
         logger?.LogInformation("Subscription to the event is complete");
     }
 
@@ -27,6 +28,7 @@ public static class ProgramExtensions
     {
         return services
             .AddTransient<IDataLake, FileDataLake>()
+            .AddTransient<ITelegramContentService, TelegramContentService>()
             .AddKeyedTransient<IContentProviderService, TikTokContentService>(Enum.GetName(ContentProvider.TikTok))
             .AddTransient<IContentService, ContentService>();
     }

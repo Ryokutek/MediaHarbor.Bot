@@ -15,4 +15,9 @@ public class FileDataLake : IDataLake
     {
         return File.WriteAllBytesAsync(path, bytes);
     }
+    
+    public Task<byte[]> GetAsync(string path)
+    {
+        return File.ReadAllBytesAsync(path);
+    }
 }

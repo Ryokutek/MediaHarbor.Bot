@@ -30,6 +30,7 @@ public partial class ContentInformationHandler(HttpClient httpClient) : Abstract
         }
         else {
             content.TikTokImages = ExtractTikTokImages(contentInformation).ToList();
+            content.TikTokAudio = ExtractAudioInformation(contentInformation);
         }
         
         return await base.HandleAsync(content);
@@ -59,7 +60,7 @@ public partial class ContentInformationHandler(HttpClient httpClient) : Abstract
 
     private static IEnumerable<TikTokImage> ExtractTikTokImages(JToken contentInformation)
     {
-        var images = contentInformation["aweme_list"][0]?["image_post_info"]?["images"];
+        var images = contentInformation["aweme_list"]?[0]?["image_post_info"]?["images"];
         foreach (var image in images!)
         {
             yield return new TikTokImage
@@ -69,5 +70,14 @@ public partial class ContentInformationHandler(HttpClient httpClient) : Abstract
                 DownloadLink = image["display_image"]?["url_list"]?[0]?.ToString()
             };
         }
+    }
+    
+    private static TikTokAudio ExtractAudioInformation(JToken contentInformation)
+    {
+        return new TikTokAudio
+        {
+            DownloadLink = contentInformation["aweme_list"]?[0]?["music"]?["play_url"]?["url_list"]?[0]?.ToString(),
+            Duration = int.Parse(contentInformation["aweme_list"]?[0]?["music"]?["duration"]?.ToString() ?? "0")
+        };
     }
 }

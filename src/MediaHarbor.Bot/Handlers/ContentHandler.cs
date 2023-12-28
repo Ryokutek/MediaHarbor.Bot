@@ -1,6 +1,7 @@
 using MediaHarbor.Bot.Domain.ContentProcessing;
 using MediaHarbor.Bot.Events;
 using SimpleKafka.Interfaces;
+using TBot.Core.TBot.RequestIdentification;
 
 namespace MediaHarbor.Bot.Handlers;
 
@@ -8,10 +9,14 @@ public class ContentHandler(IContentService contentService) : IKafkaHandler<Star
 {
     public Task HandleAsync(StartContentProcessEvent processEvent)
     {
-        return contentService.ProcessAsync(new Content
+        using (CurrentSessionThread.SetSession(Session.Create(processEvent.SessionId, processEvent.ChatId)))
         {
-            ContentProvider = processEvent.ContentProvider,
-            Link = processEvent.Link
-        });
+            return contentService.ProcessAsync(new Content
+            {
+                Id = Guid.NewGuid(),
+                ContentProvider = processEvent.ContentProvider,
+                Link = processEvent.Link
+            });
+        }
     }
 }

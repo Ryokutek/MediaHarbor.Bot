@@ -17,6 +17,10 @@ public class DownloadContentHandler(HttpClient httpClient) : AbstractHandler<Pro
                 image.Bytes = await DownloadAsync(context.OriginalLink, image.DownloadLink!);
             }
         }
+
+        if (context.IsAudioExist()) {
+            context.TikTokAudio!.Bytes = await DownloadAsync(context.OriginalLink, context.TikTokAudio.DownloadLink!);
+        }
         
         return await base.HandleAsync(context);
     }

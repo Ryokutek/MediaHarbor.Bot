@@ -5,8 +5,7 @@ public class ContentService(IServiceProvider serviceProvider) : IContentService
 {
     public Task ProcessAsync(Content content)
     {
-        var service = serviceProvider
-            .GetRequiredKeyedService<IContentProviderService>(Enum.GetName(content.ContentProvider));
+        var service = serviceProvider.GetRequiredKeyedService<IContentProviderService>(Enum.GetName(content.ContentProvider));
         return service.ProcessAsync(content);
     }
 }

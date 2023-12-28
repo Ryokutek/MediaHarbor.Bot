@@ -22,6 +22,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: /src/MediaHarbor.Bot/.
+        context: .
+        file: src/MediaHarbor.Bot/Dockerfile
         push: true
         tags: gsmelford/mediaharbor.bot:beta_1.0

@@ -7,14 +7,14 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    runs-on: windows-runner
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
     - name: Info
-      run: ls | cd src | ls
+      run: cd src | pwd
 
     - name: Build Docker Image
       run: cd ./src/MediaHarbor.Bot | docker build -t gsmelford/mediaharbor.bot:beta_1.0 .

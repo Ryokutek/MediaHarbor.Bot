@@ -6,7 +6,6 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS backend-build
 WORKDIR /src
 COPY ["MediaHarbor.Bot/MediaHarbor.Bot.csproj", "MediaHarbor.Bot/"]
-COPY ./nuget.config .
 RUN dotnet restore "MediaHarbor.Bot/MediaHarbor.Bot.csproj"
 COPY . .
 WORKDIR "/src/MediaHarbor.Bot"

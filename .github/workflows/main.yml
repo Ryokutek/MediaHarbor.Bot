@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   
 jobs:
-  build-and-push:
+  Build:
     runs-on: windows-runner
     steps:
     - name: Checkout
@@ -21,7 +21,6 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: src/MediaHarbor.Bot/Dockerfile
         push: true
         tags: gsmelford/mediaharbor.bot:beta_1.0
         build-args: |

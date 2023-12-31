@@ -6,7 +6,7 @@ on:
   
 jobs:
   Build:
-    runs-on: windows-runner
+    runs-on: ryokutek-raspberrypi
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -17,12 +17,16 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+  
     - name: Build and Push
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
         tags: gsmelford/mediaharbor.bot:beta_1.0
+        platforms: linux/arm64
         build-args: |
             NUGET_USERNAME=${{ secrets.NUGET_USERNAME }}
             NUGET_PASSWORD=${{ secrets.NUGET_PASSWORD }}

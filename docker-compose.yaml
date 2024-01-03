@@ -11,4 +11,4 @@ services:
       - TBotOptions:RedisOptions:Password=$${{ secrets.REDIS_PASSWORD }}
       - TBotOptions:RedisOptions:DefaultDatabase=1
       - TBotOptions:RedisOptions:SyncTimeout=3000
-      - TBotOptions:KafkaOptions:BootstrapServers=kafka
+      - KafkaOptions:BootstrapServers=kafka

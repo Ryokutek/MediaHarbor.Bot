@@ -34,6 +34,11 @@ jobs:
     runs-on: ryokutek-raspberrypi
     needs: Build
     steps:
+    - name: test
+      run: |
+        ls
+        pdw
+      continue-on-error: true
     - name: MediaHarbor.Bot Down
       run: sudo docker compose down
       continue-on-error: true

@@ -32,6 +32,7 @@ jobs:
             NUGET_PASSWORD=${{ secrets.NUGET_PASSWORD }}
   Deploy:
     runs-on: ryokutek-raspberrypi
+    needs: Build
     steps:
     - name: MediaHarbor.Bot Down
       run: docker-compose down

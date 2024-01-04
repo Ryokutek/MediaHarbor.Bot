@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{5F6162
 		Dockerfile = Dockerfile
 		nuget.config = nuget.config
 		docker-compose.yaml = docker-compose.yaml
+		.env = .env
 	EndProjectSection
 EndProject
 Global

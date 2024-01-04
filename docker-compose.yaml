@@ -8,7 +8,7 @@ services:
     environment:
       - TBotOptions:Token=${MEDIA_HARBOR_BOT_TOKEN}
       - RedisOptions:Host=localhost
-      - RedisOptions:Password=${REDIS_PASSWORD }
+      - RedisOptions:Password=${REDIS_PASSWORD}
       - RedisOptions:DefaultDatabase=1
       - RedisOptions:SyncTimeout=3000
       - KafkaOptions:BootstrapServers=kafka

@@ -12,6 +12,8 @@ services:
       - RedisOptions:DefaultDatabase=1
       - RedisOptions:SyncTimeout=3000
       - KafkaOptions:BootstrapServers=kafka
+    volumes:
+      - /var/docker/mediaharbor/contents:/contents
 
 networks:
   default:

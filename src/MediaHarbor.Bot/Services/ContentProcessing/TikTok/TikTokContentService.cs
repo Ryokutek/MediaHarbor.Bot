@@ -32,7 +32,7 @@ public class TikTokContentService(IServiceProvider serviceProvider, IKafkaProduc
             SessionId = CurrentSessionThread.Session!.Id,
             ChatId = CurrentSessionThread.Session.ChatId,
             AudioPath = processedContent.IsAudioExist() ? TikTokConstants.BuildAudioPath(content.Id) : default,
-            VideoPath = processedContent.IsAudioExist() ? TikTokConstants.BuildVideoPath(content.Id) : default,
+            VideoPath = processedContent.IsVideo() ? TikTokConstants.BuildVideoPath(content.Id) : default,
             ImagesPaths = processedContent.TikTokImages?.Select((_, index) => TikTokConstants.BuildImagesPath(content.Id, index)).ToList(),
             ContentId = content.Id,
             ContentType = processedContent.IsVideo() ? (int)ContentType.Video : (int)ContentType.Images

@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="Serilog.Enrichers.ClientInfo" Version="2.0.3" />
-    <PackageReference Include="SimpleKafka" Version="0.2.1" />
+    <PackageReference Include="SimpleKafka" Version="0.2.2" />
     <PackageReference Include="TBot.Asp.Client" Version="0.1.2" />
-    <PackageReference Include="TBot.Client" Version="0.7.1" />
-    <PackageReference Include="TBot.Core" Version="0.7.1" />
+    <PackageReference Include="TBot.Client" Version="0.7.2" />
+    <PackageReference Include="TBot.Core" Version="0.7.2" />
     <PackageReference Include="TBot.Dto" Version="0.7.0" />
     <PackageReference Include="TBot.LongCommand" Version="0.1.1" />
     <PackageReference Include="TBot.ReplyKeyboard" Version="0.1.0" />

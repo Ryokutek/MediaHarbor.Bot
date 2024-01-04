@@ -2,35 +2,30 @@ using System.Text.RegularExpressions;
 using MediaHarbor.Bot.Domain.ContentProcessing;
 using MediaHarbor.Bot.Events;
 using SimpleKafka.Interfaces;
+using TBot.Core.RequestOptions;
+using TBot.Core.TBot;
 using TBot.Core.UpdateEngine;
 
 namespace MediaHarbor.Bot.UpdatePipelines;
 
-public partial class ContentPipeline(IKafkaProducer<string> kafkaProducer) : UpdatePipeline
+public partial class ContentPipeline(IKafkaProducer<string> kafkaProducer, ITBotClient botClient) : UpdatePipeline
 {
     [GeneratedRegex(@"https://\w*.tiktok.com/\S*", RegexOptions.Compiled)]
     private static partial Regex TikTokLinkRegex();
-
+    
     public override async Task<Context> ExecuteAsync(Context context)
     {
         var update = context.Update;
         if (update.IsMessage() && TryGetContent(context, out var processEvent)) {
-            await kafkaProducer.ProduceAsync(processEvent, string.Empty);
+            await kafkaProducer.ProduceAsync(processEvent);
+            await botClient.DeleteMessageAsync(new DeleteMessageOptions
+            {
+                ChatId = context.Session.ChatId,
+                MessageId = update.Message!.MessageId
+            });
         }
 
         return await ExecuteNextAsync(context);
-    }
-
-    private static string GetLink(ContentProvider provider, string messageText)
-    {
-        if (provider == ContentProvider.TikTok)
-        {
-            return TikTokLinkRegex()
-                .Matches(messageText)
-                .FirstOrDefault()?.Value ?? string.Empty;
-        }
-
-        return string.Empty;
     }
     
     private static bool TryGetContent(Context context, out StartContentProcessEvent? processEvent)

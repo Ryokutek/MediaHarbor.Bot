@@ -4,10 +4,6 @@ on:
   push:
     branches: [ main ]
 
-env:
-  MEDIA_HARBOR_BOT_TOKEN: ${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
-  REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-
 jobs:
   Deploy:
     runs-on: ryokutek-raspberrypi
@@ -21,9 +17,12 @@ jobs:
       
     - name: MediaHarbor.Bot Update
       run: sudo docker compose pull
-      
+
+    - name: Set up .env file
+      run: |
+          cp .env.template .env
+          sed -i "s/MEDIA_HARBOR_BOT_TOKEN=/MEDIA_HARBOR_BOT_TOKEN=${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}/g" .env
+          sed -i "s/REDIS_PASSWORD=/REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}/g" .env
+    
     - name: MediaHarbor.Bot Up
       run: sudo docker compose up -d
-      env:
-        MEDIA_HARBOR_BOT_TOKEN: ${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
-        REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}

@@ -21,7 +21,7 @@ builder.AddTBot(botBuilder =>
 {
     botBuilder
         .AddLongPoll()
-        .AddRedisStore(redisOptions.ToString()!)
+        .AddRedisStore(redisOptions.ToString())
         .EnableCallLimiter()
         .AddUpdateServices()
         .AddService<ContentPipeline>();

@@ -12,15 +12,14 @@ namespace MediaHarbor.Bot;
 
 public static class ProgramExtensions
 {
-    public static async Task SubscribeHandlersAsync(this IServiceProvider provider)
+    public static async Task SubscribeHandlersAsync(this IServiceProvider provider, ConsumerConfig consumerConfig)
     {
         var logger  = provider.GetService<ILogger<Program>>();
         var kafkaConsumerFactory = provider.GetRequiredService<IKafkaConsumerFactory>();
         
-        var consumerConfig = new ConsumerConfig { BootstrapServers = "localhost" };
-        
         await kafkaConsumerFactory.SubscribeAsync<StartContentProcessEvent, ContentHandler>(consumerConfig);
         await kafkaConsumerFactory.SubscribeAsync<FinishContentProcessEvent, FinishContentHandler>(consumerConfig);
+        
         logger?.LogInformation("Subscription to the event is complete");
     }
 

@@ -7,10 +7,10 @@ services:
     container_name: media.harbor.bot
     environment:
       - TBotOptions:Token=$${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
-      - TBotOptions:RedisOptions:Host=localhost
-      - TBotOptions:RedisOptions:Password=$${{ secrets.REDIS_PASSWORD }}
-      - TBotOptions:RedisOptions:DefaultDatabase=1
-      - TBotOptions:RedisOptions:SyncTimeout=3000
+      - RedisOptions:Host=localhost
+      - RedisOptions:Password=$${{ secrets.REDIS_PASSWORD }}
+      - RedisOptions:DefaultDatabase=1
+      - RedisOptions:SyncTimeout=3000
       - KafkaOptions:BootstrapServers=kafka
 
 networks:

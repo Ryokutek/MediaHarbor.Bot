@@ -31,6 +31,6 @@ var app = builder.Build();
 var dataLake = app.Services.GetRequiredService<IDataLake>();
 dataLake.CreateFolderIfNotExist(Constants.ContentFolder);
 
-await app.Services.SubscribeHandlersAsync();
+await app.Services.SubscribeHandlersAsync(new ConsumerConfig { BootstrapServers = kafkaOptions.BootstrapServers });
 app.RunTBot().WithUpdateEngine();
 await app.RunAsync();

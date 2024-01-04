@@ -3,15 +3,14 @@ name: CI to Docker Hub
 on:
   push:
     branches: [ main ]
-  
+
+env:
+      MEDIA_HARBOR_BOT_TOKEN: ${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+
 jobs:
   Deploy:
     runs-on: ryokutek-raspberrypi
-
-    env:
-      MEDIA_HARBOR_BOT_TOKEN: ${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
-      REDIS_PASSWORD: password
-      
     steps:
     - name: Checkout
       uses: actions/checkout@v2

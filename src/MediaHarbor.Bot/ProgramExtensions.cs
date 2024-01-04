@@ -32,4 +32,11 @@ public static class ProgramExtensions
             .AddKeyedTransient<IContentProviderService, TikTokContentService>(Enum.GetName(ContentProvider.TikTok))
             .AddTransient<IContentService, ContentService>();
     }
+
+    public static T BindOptions<T>(this IConfiguration configuration) where T : new()
+    {
+        var options = new T();
+        configuration.Bind(typeof(T).Name, options);
+        return options;
+    }
 }

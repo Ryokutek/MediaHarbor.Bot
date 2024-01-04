@@ -6,12 +6,11 @@ using MediaHarbor.Bot.UpdatePipelines;
 using MediaHarbor.Logger;
 using SimpleKafka;
 using TBot.Asp.Client;
-using TBot.Core.CallLimiter;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var kafkaOptions = new KafkaOptions();
-builder.Configuration.Bind(nameof(KafkaOptions), kafkaOptions);
+var kafkaOptions = builder.Configuration.BindOptions<KafkaOptions>();
+var redisOptions = builder.Configuration.BindOptions<RedisOptions>();
 
 builder.Services.AddKafkaProducer<string>(new ProducerConfig { BootstrapServers = kafkaOptions.BootstrapServers });
 builder.Services.AddKafkaConsumersFactory();
@@ -22,17 +21,16 @@ builder.AddTBot(botBuilder =>
 {
     botBuilder
         .AddLongPoll()
-        .AddTBotStore(BotStoreType.Redis)
+        .AddRedisStore(redisOptions.ToString()!)
         .EnableCallLimiter()
         .AddUpdateServices()
         .AddService<ContentPipeline>();
 });
 
 var app = builder.Build();
-app.RunTBot().WithUpdateEngine();
-
 var dataLake = app.Services.GetRequiredService<IDataLake>();
 dataLake.CreateFolderIfNotExist(Constants.ContentFolder);
 
 await app.Services.SubscribeHandlersAsync();
+app.RunTBot().WithUpdateEngine();
 await app.RunAsync();

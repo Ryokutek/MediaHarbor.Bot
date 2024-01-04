@@ -14,7 +14,6 @@ services:
       - KafkaOptions:BootstrapServers=kafka
 
 networks:
-  kafka_network:
-    external: true
-  redis_network:
-    external: true
+  default:
+    external:
+      name: kafka_network

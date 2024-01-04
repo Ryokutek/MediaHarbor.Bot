@@ -32,6 +32,11 @@ jobs:
             NUGET_PASSWORD=${{ secrets.NUGET_PASSWORD }}
   Deploy:
     runs-on: ryokutek-raspberrypi
+
+    env:
+      MEDIA_HARBOR_BOT_TOKEN: ${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
+      REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+      
     needs: Build
     steps:
     - name: Checkout

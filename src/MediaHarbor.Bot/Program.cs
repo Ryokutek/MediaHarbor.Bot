@@ -29,6 +29,9 @@ builder.AddTBot(botBuilder =>
 
 var app = builder.Build();
 var dataLake = app.Services.GetRequiredService<IDataLake>();
+
+app.Services.GetRequiredService<ILogger<Program>>().LogInformation("REDIS {ConnectionString}", redisOptions.ToString());
+
 dataLake.CreateFolderIfNotExist(Constants.ContentFolder);
 
 await app.Services.SubscribeHandlersAsync(new ConsumerConfig { BootstrapServers = kafkaOptions.BootstrapServers });

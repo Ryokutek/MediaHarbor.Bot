@@ -5,10 +5,14 @@ using SimpleKafka.Interfaces;
 using TBot.Core.RequestOptions;
 using TBot.Core.TBot;
 using TBot.Core.UpdateEngine;
+using TBot.Core.UpdateEngine.Abstraction;
 
 namespace MediaHarbor.Bot.UpdatePipelines;
 
-public partial class ContentPipeline(IKafkaProducer<string> kafkaProducer, ITBotClient botClient) : UpdatePipeline
+public partial class ContentPipeline(
+    ILogger<IUpdatePipeline> logger, 
+    IKafkaProducer<string> kafkaProducer, 
+    ITBotClient botClient) : UpdatePipeline
 {
     [GeneratedRegex(@"https://\w*.tiktok.com/\S*", RegexOptions.Compiled)]
     private static partial Regex TikTokLinkRegex();
@@ -18,11 +22,18 @@ public partial class ContentPipeline(IKafkaProducer<string> kafkaProducer, ITBot
         var update = context.Update;
         if (update.IsMessage() && TryGetContent(context, out var processEvent)) {
             await kafkaProducer.ProduceAsync(processEvent);
-            await botClient.DeleteMessageAsync(new DeleteMessageOptions
+            try
             {
-                ChatId = context.Session.ChatId,
-                MessageId = update.Message!.MessageId
-            });
+                await botClient.DeleteMessageAsync(new DeleteMessageOptions
+                {
+                    ChatId = context.Session.ChatId,
+                    MessageId = update.Message!.MessageId
+                });
+            }
+            catch
+            {
+                logger.LogInformation("ContentPipeline. Unable to delete message. MessageId:{MessageId}", update.Message!.MessageId);
+            }
         }
 
         return await ExecuteNextAsync(context);

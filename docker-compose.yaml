@@ -6,9 +6,9 @@ services:
     image: gsmelford/mediaharbor.bot:beta_1.0
     container_name: media.harbor.bot
     environment:
-      - TBotOptions:Token=$${{ secrets.MEDIA_HARBOR_BOT_TOKEN }}
+      - TBotOptions:Token=${MEDIA_HARBOR_BOT_TOKEN}
       - RedisOptions:Host=localhost
-      - RedisOptions:Password=$${{ secrets.REDIS_PASSWORD }}
+      - RedisOptions:Password=${REDIS_PASSWORD }
       - RedisOptions:DefaultDatabase=1
       - RedisOptions:SyncTimeout=3000
       - KafkaOptions:BootstrapServers=kafka

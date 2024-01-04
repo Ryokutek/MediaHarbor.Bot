@@ -7,7 +7,7 @@ services:
     container_name: media.harbor.bot
     environment:
       - TBotOptions:Token=${MEDIA_HARBOR_BOT_TOKEN}
-      - RedisOptions:Host=localhost
+      - RedisOptions:Host=redis
       - RedisOptions:Password=${REDIS_PASSWORD}
       - RedisOptions:DefaultDatabase=1
       - RedisOptions:SyncTimeout=3000

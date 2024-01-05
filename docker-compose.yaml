@@ -5,6 +5,8 @@ services:
     restart: always
     image: gsmelford/mediaharbor.bot:beta_1.0
     container_name: media.harbor.bot
+    ports:
+      - "5566:80"
     environment:
       - MediaHarborOptions:EnableWebhook=true
       - TBotOptions:Token=${MEDIA_HARBOR_BOT_TOKEN}

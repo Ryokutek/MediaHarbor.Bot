@@ -10,6 +10,7 @@ services:
     environment:
       - MediaHarborOptions:EnableWebhook=true
       - TBotOptions:Token=${MEDIA_HARBOR_BOT_TOKEN}
+      - TBotOptions:UpdatePath=/update
       - RedisOptions:Host=redis
       - RedisOptions:Password=${REDIS_PASSWORD}
       - RedisOptions:DefaultDatabase=1

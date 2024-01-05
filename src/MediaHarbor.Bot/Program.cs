@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var kafkaOptions = builder.Configuration.BindOptions<KafkaOptions>();
 var redisOptions = builder.Configuration.BindOptions<RedisOptions>();
+var harborOptions = builder.Configuration.BindOptions<MediaHarborOptions>();
 
 builder.Services.AddKafkaProducer<string>(new ProducerConfig { BootstrapServers = kafkaOptions.BootstrapServers });
 builder.Services.AddKafkaConsumersFactory();
@@ -19,8 +20,11 @@ builder.Logging.AddLogger(builder.Configuration, new KafkaSettings { BootstrapSe
 
 builder.AddTBot(botBuilder =>
 {
+    if (!harborOptions.EnableWebhook) {
+        botBuilder.AddLongPoll();
+    }
+    
     botBuilder
-        .AddLongPoll()
         .AddRedisStore(redisOptions.ToString())
         .EnableCallLimiter()
         .AddUpdateServices()
@@ -32,5 +36,12 @@ var dataLake = app.Services.GetRequiredService<IDataLake>();
 dataLake.CreateFolderIfNotExist(Constants.ContentFolder);
 
 await app.Services.SubscribeHandlersAsync(new ConsumerConfig { BootstrapServers = kafkaOptions.BootstrapServers });
-app.RunTBot().WithUpdateEngine();
+
+if (harborOptions.EnableWebhook) {
+    app.UseTBotRoute().WithUpdateEngine();
+}
+else {
+    app.RunTBot().WithUpdateEngine();
+}
+
 await app.RunAsync();

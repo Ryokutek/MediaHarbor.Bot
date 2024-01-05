@@ -6,6 +6,7 @@ services:
     image: gsmelford/mediaharbor.bot:beta_1.0
     container_name: media.harbor.bot
     environment:
+      - MediaHarborOptions:EnableWebhook=true
       - TBotOptions:Token=${MEDIA_HARBOR_BOT_TOKEN}
       - RedisOptions:Host=redis
       - RedisOptions:Password=${REDIS_PASSWORD}

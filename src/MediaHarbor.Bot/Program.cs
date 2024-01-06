@@ -37,6 +37,7 @@ dataLake.CreateFolderIfNotExist(Constants.ContentFolder);
 
 await app.Services.SubscribeHandlersAsync(new ConsumerConfig { BootstrapServers = kafkaOptions.BootstrapServers });
 
+app.UseRouting();
 if (harborOptions.EnableWebhook) {
     app.UseTBotRoute().WithUpdateEngine();
 }
